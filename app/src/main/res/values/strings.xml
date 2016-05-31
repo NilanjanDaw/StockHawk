@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name">Stock Hawk</string>
+  <string name="app_name" translatable="false">Stock Hawk</string>
 
   <string name="action_example">Example action</string>
 
@@ -10,4 +10,8 @@
   <string name="input_hint">FB</string>
   <string name="input_prefill"></string>
   <string name="network_toast">Uh-oh! This app requires an internet connection</string>
+  <string name="empty_view">Sorry! We do not have any stock information at the moment</string>
+  <string name="stock_add_content">Click here to add another stock to track</string>
+  <string name="appwidget_text">EXAMPLE</string>
+  <string name="add_widget">Add widget</string>
 </resources>
