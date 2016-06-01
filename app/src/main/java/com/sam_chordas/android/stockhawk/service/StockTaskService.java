@@ -1,8 +1,9 @@
 package com.sam_chordas.android.stockhawk.service;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -12,6 +13,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
 import com.google.android.gms.gcm.TaskParams;
+import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 import com.sam_chordas.android.stockhawk.rest.Utils;
@@ -134,8 +136,11 @@ public class StockTaskService extends GcmTaskService{
         e.printStackTrace();
       }
     }
-    Intent dataUpdate = new Intent(ACTION_DATA_UPDATED);
-    getApplicationContext().sendBroadcast(dataUpdate);
+
+    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(mContext);
+    int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
+            new ComponentName(mContext, getClass()));
+    appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.stock_list);
     return result;
   }
 
