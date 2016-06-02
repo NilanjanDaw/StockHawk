@@ -91,7 +91,9 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
               @Override public void onItemClick(View v, int position) {
 
                 //TODO: do something on item click
-                Intent intent = new Intent(getApplicationContext(), StockChartActivity.class);
+                Intent intent = new Intent(mContext, StockChartActivity.class);
+                mCursor.moveToPosition(position);
+                intent.putExtra(QuoteColumns.SYMBOL, mCursor.getString(mCursor.getColumnIndex(QuoteColumns.SYMBOL)));
                 startActivity(intent);
               }
             }));

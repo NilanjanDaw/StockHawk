@@ -4,16 +4,12 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.service.StockHawkRemoteViewsService;
-import com.sam_chordas.android.stockhawk.service.StockTaskService;
 
 /**
  * Implementation of App Widget functionality.
@@ -30,12 +26,13 @@ public class StockHawkWidget extends AppWidgetProvider {
         Intent intent = new Intent(context, MyStocksActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         views.setOnClickPendingIntent(R.id.widget, pendingIntent);
-        views.setRemoteAdapter(R.id.stock_list, new Intent(context, StockHawkRemoteViewsService.class));
+        views.setRemoteAdapter(R.id.widget_stock_list, new Intent(context, StockHawkRemoteViewsService.class));
         Intent clickItem = new Intent(context, StockChartActivity.class);
-        PendingIntent clickPending = TaskStackBuilder.create(context)
+        PendingIntent clickListPending = TaskStackBuilder.create(context)
                 .addNextIntentWithParentStack(clickItem)
                 .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setPendingIntentTemplate(R.id.stock_list, pendingIntent);
+        views.setPendingIntentTemplate(R.id.widget_stock_list, clickListPending);
+        views.setEmptyView(R.id.widget_stock_list, R.id.empty_view);
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
@@ -46,18 +43,6 @@ public class StockHawkWidget extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
 
-        }
-    }
-
-    @Override
-    public void onReceive(@NonNull Context context, @NonNull Intent intent) {
-        super.onReceive(context, intent);
-        Log.d(LOG_TAG, "Broadcast Received");
-        if (StockTaskService.ACTION_DATA_UPDATED.equals(intent.getAction())) {
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
-                    new ComponentName(context, getClass()));
-            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.stock_list);
         }
     }
 

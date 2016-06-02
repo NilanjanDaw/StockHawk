@@ -31,8 +31,6 @@ import java.net.URLEncoder;
  * and is used for the initialization and adding task as well.
  */
 public class StockTaskService extends GcmTaskService{
-  public static final String ACTION_DATA_UPDATED =
-          "com.sam_chordas.android.stockhawk.ACTION_DATA_UPDATED";
   private String LOG_TAG = StockTaskService.class.getSimpleName();
   private OkHttpClient client = new OkHttpClient();
   private Context mContext;
@@ -140,7 +138,7 @@ public class StockTaskService extends GcmTaskService{
     AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(mContext);
     int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
             new ComponentName(mContext, getClass()));
-    appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.stock_list);
+    appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_stock_list);
     return result;
   }
 

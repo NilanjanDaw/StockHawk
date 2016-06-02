@@ -10,18 +10,13 @@ import android.widget.RemoteViewsService;
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
+import com.sam_chordas.android.stockhawk.rest.Utils;
 
 public class StockHawkRemoteViewsService extends RemoteViewsService {
     public StockHawkRemoteViewsService() {
     }
 
-
-    /**
-     * To be implemented by the derived service to generate appropriate factories for
-     * the data.
-     *
-     * @param intent
-     */
+    
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new RemoteViewsFactory() {
@@ -70,12 +65,19 @@ public class StockHawkRemoteViewsService extends RemoteViewsService {
                 RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.list_item_quote);
                 remoteViews.setTextViewText(R.id.stock_symbol, data.getString(data.getColumnIndex(QuoteColumns.SYMBOL)));
                 remoteViews.setTextViewText(R.id.bid_price, data.getString(data.getColumnIndex(QuoteColumns.BIDPRICE)));
-                remoteViews.setTextViewText(R.id.change, data.getString(data.getColumnIndex(QuoteColumns.CHANGE)));
                 if (data.getInt(data.getColumnIndex("is_up")) == 1) {
                     remoteViews.setInt(R.id.change, "setBackgroundResource", R.drawable.percent_change_pill_green);
                 } else {
                     remoteViews.setInt(R.id.change, "setBackgroundResource", R.drawable.percent_change_pill_red);
                 }
+                if (Utils.showPercent) {
+                    remoteViews.setTextViewText(R.id.change, data.getString(data.getColumnIndex(QuoteColumns.PERCENT_CHANGE)));
+                } else {
+                    remoteViews.setTextViewText(R.id.change, data.getString(data.getColumnIndex(QuoteColumns.CHANGE)));
+                }
+                Intent fillInIntent = new Intent();
+                fillInIntent.putExtra(QuoteColumns.SYMBOL, data.getString(data.getColumnIndex(QuoteColumns.SYMBOL)));
+                remoteViews.setOnClickFillInIntent(R.id.widget_stock_list, fillInIntent);
                 return remoteViews;
             }
 

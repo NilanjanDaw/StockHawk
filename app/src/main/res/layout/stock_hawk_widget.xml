@@ -32,7 +32,7 @@
             android:visibility="gone" />
 
         <ListView
-            android:id="@+id/stock_list"
+            android:id="@+id/widget_stock_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
