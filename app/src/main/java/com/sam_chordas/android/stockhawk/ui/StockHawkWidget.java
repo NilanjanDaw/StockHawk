@@ -16,7 +16,6 @@ import com.sam_chordas.android.stockhawk.service.StockHawkRemoteViewsService;
  * @author Nilanjan
  */
 public class StockHawkWidget extends AppWidgetProvider {
-    public static final String LOG_TAG = "StockHawkWidget";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
